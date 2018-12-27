@@ -6,6 +6,9 @@ from django.utils.translation import ugettext_lazy as _
 #AbstractUser를 상속 받기 때문에 모든 필드를 정의하지 않아도 된다.
 class User(AbstractUser):
 
+    #코멘트 넣기
+    """ User Model """
+
     #GENDER_CHOICES를 통해서 성별을 제한을 둔다.
     GENDER_CHOICES=(
         ('male','Male'),
