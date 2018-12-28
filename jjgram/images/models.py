@@ -44,8 +44,8 @@ class Comment(TimeStampeModel):
     message=models.TextField()
     #댓글을 생성한 생성자 
     creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True)
-    #어떤 이미지에 댓글이 달렸나 확인.
-    image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True)
+    #어떤 이미지에 댓글이 달렸나 확인. related_name은 image와 연결된 댓글을 찾을 때 사용 comment_set을 comments로 변경
+    image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True,related_name='comments')
 
     def __str__(self):
         return self.message
@@ -58,7 +58,7 @@ class Like(TimeStampeModel):
     #누가 좋아요를 눌렀나. 장고 2버전 이상부터는 on_delete가 필수로 들어가게 된다.
     creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True)
     #어떤 이미지에 좋아요를 눌렀나 확인.
-    image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True)
+    image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True,related_name='likes')
 
     def __str__(self):
         return 'User : {} - Image Caption : {}'.format(self.creator.username,self.image.caption)
