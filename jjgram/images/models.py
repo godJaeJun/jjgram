@@ -28,11 +28,18 @@ class Image(TimeStampeModel):
     #캡션정보
     caption=models.TextField()
     #이미지를 생성한 생성자
-    creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True)
+    creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True,related_name='images')
+
+    @property #모델의 필드인데 데이터로 가지는 않지만 모델 안에 존재한다.
+    def like_count(self):
+        return self.likes.all().count()
 
     #해당 로케이션과 캡션을 admin페이지에서 보여주게 한다. 다른거 클릭 시 내용 확인.
     def __str__(self):
         return '{} - {}'.format(self.location,self.caption)
+
+    class Meta:
+        ordering=['-created_at']    #이미지가 생성된 날짜순으로 정렬되게 한다.
 
 #댓글 모델 생성
 @python_2_unicode_compatible

@@ -1,11 +1,27 @@
 from rest_framework import serializers
 from . import models
+from jjgram.users import models as user_models
+
+class FeedUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model=user_models.User
+        fields=(
+            'username',
+            'profile_image',
+        )
 
 class CommentSerializer(serializers.ModelSerializer):
     
+    creator=FeedUserSerializer()
+
     class Meta:
         model=models.Comment #모델은 Comment를 가지고 온다.
-        fields='__all__'#필드는 전체 필드를 가지고 온다.
+        fields=(
+            'id',
+            'message',
+            'creator',
+        )
 
 class LikeSerializer(serializers.ModelSerializer):
 
@@ -20,7 +36,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
     #시리얼라이즈의 데이터를 보고 싶을 때 ... 이렇게 하면 오류 발생 comment와 like가 먼저 정의 되지 않았기 때문에...
     comments=CommentSerializer(many=True)
-    likes=LikeSerializer(many=True)
+    creator=FeedUserSerializer()
 
     class Meta:
         model=models.Image # 모델은 이미지 모델을 가지고 오고
@@ -30,5 +46,6 @@ class ImageSerializer(serializers.ModelSerializer):
             'location',
             'caption',
             'comments',  #어떤 댓글이 이 이미지에 댓글을 달았는 가
-            'likes',     #누가 좋아요를 눌렀는가
+            'like_count',     #누가 좋아요를 눌렀는가
+            'creator',
         ) 

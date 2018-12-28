@@ -2,35 +2,25 @@ from rest_framework.views import APIView
 from rest_framework.response import Response#엘리먼트를 가져오고 보여주고 method를 관리하는 클래스
 from . import models,serializers
 
-#TEST 모든 이미지 불러오기
-class ListAllImages(APIView):
-    #APIView는 get이나 post나 사용자가 요청한대로 실행하는 능력을 가지고 있다.
-    def get(self,request,format=None):#request = 클라이언트에게서 오브젝트를 요청하는 것
-        #db의 모든 이미지 모델 안에 있는 모든 오브젝트 종류의 이미지를 가져와
-        all_images=models.Image.objects.all()#all은 모든 오브젝트를 가지고온다.
-        #이미지 시리얼 라이저는 단수다. 1개의 이미지를 시리얼 라이징하니까 그래서 한개가 아니라고 알려줘야함 many로!
-        serializer= serializers.ImageSerializer(all_images,many=True)
-        #return으로 인해 function은 종료된다. 시리얼라이즈의 데이터를 반환해라 
-        return Response(data=serializer.data)
-
-#TEST 모든 댓글 불러오기
-class ListAllComments(APIView):
+class Feed(APIView):
     def get(self,request,format=None):
+        user=request.user #요청한 유저명
 
-        user_id=request.user.id # 요청한 아이디를 알아낸다.
+        following_users=user.following.all()#많은 유저를 가지고 있다.
 
-        all_comments=models.Comment.objects.filter(creator=user_id)#요청한 아이디가 작성한 댓글만 불러온다.
+        image_list=[] # 많은 이미지가 들어갈 수 있는 리스트
 
-        serializer=serializers.CommentSerializer(all_comments,many=True)
 
-        return Response(data=serializer.data)
+        for following_user in following_users:
+            user_images=following_user.images.all()[:2]  #팔로잉한 유저의 이미지를 가져온다 2개만...
 
-#TEST 모든 좋아요 불러오기
-class ListAllLikes(APIView):
-    def get(self,request,format=None):
+            for image in user_images:
+                image_list.append(image) #이미지 리스트에 불러온 이미지들을 넣어준다.
 
-        all_likes=models.Like.objects.all()
+        #정렬을 한다. key= return값을 기준으로 파이썬이 정렬을 한다. reverse는 거꾸로 람다식으로 하면 편함...
+        sorted_list=sorted(image_list,key=lambda image: image.created_at,reverse=True)
 
-        serializer=serializers.LikeSerializer(all_likes,many=True)
+        #시리얼라이저로 출력가능하게 만듬 json 데이터로 
+        serializer=serializers.ImageSerializer(sorted_list,many=True)
 
-        return Response(data=serializer.data)
+        return Response(serializer.data)
