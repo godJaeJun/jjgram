@@ -7,7 +7,7 @@ class ListAllImages(APIView):
     #APIView는 get이나 post나 사용자가 요청한대로 실행하는 능력을 가지고 있다.
     def get(self,request,format=None):#request = 클라이언트에게서 오브젝트를 요청하는 것
         #db의 모든 이미지 모델 안에 있는 모든 오브젝트 종류의 이미지를 가져와
-        all_images=models.Image.objects.all()
+        all_images=models.Image.objects.all()#all은 모든 오브젝트를 가지고온다.
         #이미지 시리얼 라이저는 단수다. 1개의 이미지를 시리얼 라이징하니까 그래서 한개가 아니라고 알려줘야함 many로!
         serializer= serializers.ImageSerializer(all_images,many=True)
         #return으로 인해 function은 종료된다. 시리얼라이즈의 데이터를 반환해라 
@@ -17,7 +17,9 @@ class ListAllImages(APIView):
 class ListAllComments(APIView):
     def get(self,request,format=None):
 
-        all_comments=models.Comment.objects.all()
+        user_id=request.user.id # 요청한 아이디를 알아낸다.
+
+        all_comments=models.Comment.objects.filter(creator=user_id)#요청한 아이디가 작성한 댓글만 불러온다.
 
         serializer=serializers.CommentSerializer(all_comments,many=True)
 
