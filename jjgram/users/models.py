@@ -25,9 +25,9 @@ class User(AbstractUser):
     phone=models.CharField(max_length=140,null=True)
     gender=models.CharField(max_length=80,choices=GENDER_CHOICES,null=True)
     #followers생성 자기 자신과 연결 "self"
-    followers=models.ManyToManyField("self")
+    followers=models.ManyToManyField("self",default=None,blank=True)
     #following생성 여러 유저가 팔로잉 할 수 있으니까 self로 설정한다.
-    following=models.ManyToManyField("self")
+    following=models.ManyToManyField("self",default=None,blank=True)
 
     def get_absolute_url(self):
         return reverse("users:detail", kwargs={"username": self.username})

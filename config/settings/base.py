@@ -65,7 +65,8 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
-    'allauth.socialaccount'
+    'allauth.socialaccount',
+    'rest_framework',#REST FRAMEWORK
 ]
 LOCAL_APPS = [
     'jjgram.users.apps.UsersAppConfig',
