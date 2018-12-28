@@ -18,6 +18,9 @@ urlpatterns = [
     path(
         "users/",
         include("jjgram.users.urls", namespace="users"),
+    ),path(
+        "images/",
+        include("jjgram.images.urls", namespace="images"),
     ),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
