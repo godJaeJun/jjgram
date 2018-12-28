@@ -1,8 +1,10 @@
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from jjgram.users import models as user_models
 #models를 두게 불러오면 충돌이 생기기 때문에 as를 사용하여 닉네임을 줘야한다.
 #타임 스태프는 날짜이다. abstract timestamp model생성
 
+@python_2_unicode_compatible
 class TimeStampeModel(models.Model):
     #생성된 날짜와 시간, auto_now_add는 처음 생성됬을 경우 자동으로 날짜 생성
     created_at= models.DateTimeField(auto_now_add=True)
@@ -14,6 +16,7 @@ class TimeStampeModel(models.Model):
     class Meta:
         abstract=True 
 
+@python_2_unicode_compatible
 class Image(TimeStampeModel):
 
     """ Image Model """
@@ -27,7 +30,12 @@ class Image(TimeStampeModel):
     #이미지를 생성한 생성자
     creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True)
 
+    #해당 로케이션과 캡션을 admin페이지에서 보여주게 한다. 다른거 클릭 시 내용 확인.
+    def __str__(self):
+        return '{} - {}'.format(self.location,self.caption)
+
 #댓글 모델 생성
+@python_2_unicode_compatible
 class Comment(TimeStampeModel):
 
     """ Comment Model """
@@ -39,6 +47,10 @@ class Comment(TimeStampeModel):
     #어떤 이미지에 댓글이 달렸나 확인.
     image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True)
 
+    def __str__(self):
+        return self.message
+
+@python_2_unicode_compatible
 class Like(TimeStampeModel):
 
     """ Like Model """
@@ -47,3 +59,6 @@ class Like(TimeStampeModel):
     creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True)
     #어떤 이미지에 좋아요를 눌렀나 확인.
     image=models.ForeignKey(Image,on_delete=models.CASCADE,null=True)
+
+    def __str__(self):
+        return 'User : {} - Image Caption : {}'.format(self.creator.username,self.image.caption)
