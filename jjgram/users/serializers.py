@@ -19,8 +19,8 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'images'
         )
 
-#유저 추천 시리얼라이저
-class ExploreUserSerializer(serializers.ModelSerializer):
+#유저 정보 시리얼라이저
+class ListUserSerializer(serializers.ModelSerializer):
     
     class Meta:
         model=models.User

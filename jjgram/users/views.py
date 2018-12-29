@@ -10,7 +10,7 @@ class ExploreUsers(APIView):
         
         last_five = models.User.objects.all().order_by('-date_joined')[:5]   #5명만 불러옴
 
-        serializer=serializers.ExploreUserSerializer(last_five,many=True)
+        serializer=serializers.ListUserSerializer(last_five,many=True)
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
@@ -63,3 +63,40 @@ class UserProfile(APIView):
         serializer=serializers.UserProfileSerializer(found_user)
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
+
+#해당유저의 팔로우 보기
+class UserFollowers(APIView):
+
+    def get(self,request,username,format=None):
+
+        try:
+            found_user= models.User.objects.get(username=username)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        #해당유저의 팔로워를 가지고 온다.
+        user_followers=found_user.followers.all()
+
+        #시리얼라이저를 통해 해당 유저들을 json으로 바꾼다.
+        serializer=serializers.ListUserSerializer(user_followers,many=True)
+
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
+
+#유저가 팔로잉한 유저들 보기
+class UserFollowing(APIView):
+
+    def get(self,request,username,format=None):
+
+        try:
+            found_user= models.User.objects.get(username=username)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        #해당유저의 팔로잉을 가지고 온다.
+        user_following=found_user.following.all()
+
+        #시리얼라이저를 통해 해당 유저들을 json으로 바꾼다.
+        serializer=serializers.ListUserSerializer(user_following,many=True)
+
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
+
