@@ -100,3 +100,20 @@ class UserFollowing(APIView):
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
+#유저명으로 검색하기
+class Search(APIView):
+    def get(self,request,format=None):
+        
+        username=request.query_params.get('username',None)
+
+        if username is not None:
+            #i를 통해서 대소문자를 구별하지 않고 contains를 사용하여 유저명이 포함된 것을 검색
+            #변경함 istartswith으로 시작하는 것...oo으로 시작
+            users=models.User.objects.filter(username__istartswith=username)
+
+            serializer=serializers.ListUserSerializer(users,many=True)
+
+            return Response(data=serializer.data,status=status.HTTP_200_OK)
+        
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
