@@ -27,6 +27,7 @@ class Feed(APIView):
 
         return Response(serializer.data)
 
+#좋아요
 class LikeImage(APIView):
     def post(self,request,image_id,format=None):    #겟를 이용해서 이미지 like하기 바디를 바꾸지 않기 때문에 postX
         
@@ -43,8 +44,7 @@ class LikeImage(APIView):
                 creator=user,
                 image=found_image
             )
-            preexisiting_like.delete()  #있을 경우 삭제한다.
-            return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
         
         except models.Like.DoesNotExist:
             #좋아요를 생성한다 url을 요청한 유저를 creator로 url에 포함되어 있는 이미지를 image로 설정한다.
@@ -56,6 +56,32 @@ class LikeImage(APIView):
         new_like.save() #생성된 내용을 저장한다.
 
         return Response(status=status.HTTP_201_CREATED)
+
+#좋아요 취소
+class UnLikeImage(APIView):
+    
+    def delete(self,request,image_id,format=None):
+        
+        user=request.user
+
+        #try except로 이미지가 있을 경우 가지고 오고, 없는 경우 404에러를 띄운다.
+        try:
+            found_image=models.Image.objects.get(id=image_id) #url로 호출한 이미지 id값을 가져온다.
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            preexisiting_like=models.Like.objects.get(  #이미 좋아요 된 경우를 확인
+                creator=user,
+                image=found_image
+            )
+            preexisiting_like.delete()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        except models.Like.DoesNotExist:
+            return Response(status=status.HTTP_304_NOT_MODIFIED)
+
 
 #댓글 달기
 class CommentOnImage(APIView):
