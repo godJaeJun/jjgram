@@ -13,7 +13,7 @@ class FeedUserSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     
-    creator=FeedUserSerializer()
+    creator=FeedUserSerializer(read_only=True)  #creator는 생성할 수 없고 읽기만 가능...
 
     class Meta:
         model=models.Comment #모델은 Comment를 가지고 온다.

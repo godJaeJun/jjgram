@@ -28,7 +28,7 @@ class Feed(APIView):
         return Response(serializer.data)
 
 class LikeImage(APIView):
-    def get(self,request,image_id,format=None):    #겟를 이용해서 이미지 like하기 바디를 바꾸지 않기 때문에 postX
+    def post(self,request,image_id,format=None):    #겟를 이용해서 이미지 like하기 바디를 바꾸지 않기 때문에 postX
         
         user=request.user
 
@@ -56,3 +56,28 @@ class LikeImage(APIView):
         new_like.save() #생성된 내용을 저장한다.
 
         return Response(status=status.HTTP_201_CREATED)
+
+#댓글 달기
+class CommentOnImage(APIView):
+    
+    def post(self,request,image_id,format=None):
+
+        user=request.user #요청한 유저명을 가지고온다.
+        serializer=serializers.CommentSerializer(data=request.data) #json데이터를 파이썬이 이해할 수 있게
+
+        try:
+            found_image=models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if serializer.is_valid():   #유효성을 검증한다. 쓸수있나?
+            serializer.save(creator=user,image=found_image)
+
+            return Response(data=serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+       
+
+
+      
