@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from taggit.managers import TaggableManager
 from jjgram.users import models as user_models
 #models를 두게 불러오면 충돌이 생기기 때문에 as를 사용하여 닉네임을 줘야한다.
 #타임 스태프는 날짜이다. abstract timestamp model생성
@@ -29,6 +30,8 @@ class Image(TimeStampeModel):
     caption=models.TextField()
     #이미지를 생성한 생성자
     creator=models.ForeignKey(user_models.User,on_delete=models.CASCADE,null=True,related_name='images')
+    #해시태그 검색을 위한 태그 추가
+    tags=TaggableManager()
 
     @property #모델의 필드인데 데이터로 가지는 않지만 모델 안에 존재한다.
     def like_count(self):

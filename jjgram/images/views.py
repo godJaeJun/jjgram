@@ -115,5 +115,20 @@ class Comment(APIView):
         except models.Comment.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+#hashtag 검색 
+class Search(APIView):
+    def get(self,request,format=None):
+        hashtags=request.query_params.get('hashtags',None)
 
-      
+        if hashtags is not None:
+            hashtags=hashtags.split(",")
+            #여기서 __name__in은 deep relationship을 검색하는 방법이다. json안에 json을 검색할때 사용
+            #exact : 정확하게 검색, contains : 포함(대소문자),  둘다 앞에 i를 붙이면 예) iexact,icontains를 하면 
+            #대소문자를 구분 x in은 array가 있으면 array중에서 찾아내라 distinct 중복 x
+            images=models.Image.objects.filter(tags__name__in=hashtags).distinct()
+
+            serializer=serializers.CountImageSerializer(images,many=True)
+       
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
