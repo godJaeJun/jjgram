@@ -2,6 +2,17 @@ from rest_framework import serializers
 from . import models
 from jjgram.users import models as user_models
 
+#유저 프로필 이미지 시리얼라이저 여기에 생성하는 이유는 양쪽에서 부르고 부르고 할 수 없다.
+class UserProfileImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=models.Image
+        fields=(
+            'id',
+            'file',
+            'comment_count',
+            'like_count',
+        )
+
 class FeedUserSerializer(serializers.ModelSerializer):
 
     class Meta:

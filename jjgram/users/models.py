@@ -30,6 +30,19 @@ class User(AbstractUser):
     #following생성 여러 유저가 팔로잉 할 수 있으니까 self로 설정한다.
     following=models.ManyToManyField("self",default=None,blank=True)
 
-    def get_absolute_url(self):
-        return reverse("users:detail", kwargs={"username": self.username})
+    def __str__(self):
+        return self.username
+    
+    #유저가 올린 이미지의 개수를 세어준다.
+    @property
+    def post_count(self):
+        return self.images.all().count()
+    
+    @property 
+    def followers_count(self):
+        return self.followers.all().count()
+
+    @property
+    def following_count(self):
+        return self.following.all().count()
 

@@ -34,6 +34,10 @@ class Image(TimeStampeModel):
     def like_count(self):
         return self.likes.all().count()
 
+    @property
+    def comment_count(self):
+        return self.comments.all().count()
+
     #해당 로케이션과 캡션을 admin페이지에서 보여주게 한다. 다른거 클릭 시 내용 확인.
     def __str__(self):
         return '{} - {}'.format(self.location,self.caption)
