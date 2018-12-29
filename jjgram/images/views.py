@@ -1,6 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response#엘리먼트를 가져오고 보여주고 method를 관리하는 클래스
+from rest_framework import status #status 상태를 확인하는 클래스
 from . import models,serializers
+
 
 class Feed(APIView):
     def get(self,request,format=None):
@@ -26,8 +28,31 @@ class Feed(APIView):
         return Response(serializer.data)
 
 class LikeImage(APIView):
-    def get(self,request,image_id,format=None):
+    def get(self,request,image_id,format=None):    #겟를 이용해서 이미지 like하기 바디를 바꾸지 않기 때문에 postX
         
-        print(image_id)
+        user=request.user
 
-        return Response(status=200)
+        #try except로 이미지가 있을 경우 가지고 오고, 없는 경우 404에러를 띄운다.
+        try:
+            found_image=models.Image.objects.get(id=image_id) #url로 호출한 이미지 id값을 가져온다.
+        except models.Image.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        try:
+            preexisiting_like=models.Like.objects.get(  #이미 좋아요 된 경우를 확인
+                creator=user,
+                image=found_image
+            )
+            preexisiting_like.delete()  #있을 경우 삭제한다.
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        
+        except models.Like.DoesNotExist:
+            #좋아요를 생성한다 url을 요청한 유저를 creator로 url에 포함되어 있는 이미지를 image로 설정한다.
+            new_like=models.Like.objects.create(        
+            creator=user,
+            image=found_image
+        )
+
+        new_like.save() #생성된 내용을 저장한다.
+
+        return Response(status=status.HTTP_201_CREATED)
