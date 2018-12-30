@@ -15,7 +15,9 @@ class Notification(image_models.TimeStampeModel):
     #장고 2.0이상에서부터는 외부의 모델을 foreignkey로 받아올때 on_delete를 꼭 써줘야한다.
     creator = models.ForeignKey(user_models.User,on_delete=models.PROTECT,related_name='creator')  
     to = models.ForeignKey(user_models.User,on_delete=models.PROTECT,related_name='to')
+    #creator는 주는 사람 to는 받는사람
     notifications_type = models.CharField(max_length=20,choices=TYPE_CHOICES)
     #choices=Type_CHOICES인것은 팔로잉 이나 그런 알람종류가 있기 때문
     image=models.ForeignKey(image_models.Image,on_delete=models.PROTECT,null=True,blank=True)
+    comment=models.TextField(null=True,blank=True)
 
