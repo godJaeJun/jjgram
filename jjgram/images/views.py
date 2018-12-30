@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response#엘리먼트를 가져오고 보여주고 method를 관리하는 클래스
 from rest_framework import status #status 상태를 확인하는 클래스
 from . import models,serializers
+from jjgram.notifications import views as notification_views #상황에 맞게 알림이 떠야하기 때문에 가지고옴.
 
 
 class Feed(APIView):
@@ -53,6 +54,9 @@ class LikeImage(APIView):
             image=found_image
         )
 
+        #좋아요 알림...
+        notification_views.create_notification(user,found_image.creator,'like',found_image)
+
         new_like.save() #생성된 내용을 저장한다.
 
         return Response(status=status.HTTP_201_CREATED)
@@ -98,6 +102,9 @@ class CommentOnImage(APIView):
 
         if serializer.is_valid():   #유효성을 검증한다. 쓸수있나?
             serializer.save(creator=user,image=found_image)
+
+            #댓글 알림...
+            notification_views.create_notification(user,found_image.creator,'comment',found_image,serializer.data['message'])
 
             return Response(data=serializer.data,status=status.HTTP_201_CREATED)
         else:

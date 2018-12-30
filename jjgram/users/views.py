@@ -2,6 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response#엘리먼트를 가져오고 보여주고 method를 관리하는 클래스
 from rest_framework import status #status 상태를 확인하는 클래스
 from . import models,serializers
+from jjgram.notifications import views as notification_views #상황에 맞게 알림이 떠야하기 때문에 가지고옴.
 
 #최근 가입한 5명의 유저 추천받기
 class ExploreUsers(APIView):
@@ -29,6 +30,9 @@ class FollowUser(APIView):
         user.following.add(user_to_follow)  #팔로우하기
 
         user.save() #저장
+
+        #팔로우 알림...
+        notification_views.create_notification(user,user_to_follow,'follow')
 
         return Response(status=status.HTTP_200_OK)
 
