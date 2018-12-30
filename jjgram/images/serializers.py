@@ -69,4 +69,5 @@ class ImageSerializer(serializers.ModelSerializer):
             'comments',  #어떤 댓글이 이 이미지에 댓글을 달았는 가
             'like_count',     #누가 좋아요를 눌렀는가
             'creator',
+            'created_at',
         ) 

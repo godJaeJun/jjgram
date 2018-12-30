@@ -20,6 +20,13 @@ class Feed(APIView):
             for image in user_images:
                 image_list.append(image) #이미지 리스트에 불러온 이미지들을 넣어준다.
 
+        #내이미지도 불러온다.
+        my_images=user.images.all()[:2]
+
+        for image in my_images:
+
+            image_list.append(image)
+
         #정렬을 한다. key= return값을 기준으로 파이썬이 정렬을 한다. reverse는 거꾸로 람다식으로 하면 편함...
         sorted_list=sorted(image_list,key=lambda image: image.created_at,reverse=True)
 
@@ -155,3 +162,17 @@ class ModerateComment(APIView):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class ImageDetail(APIView):
+    def get(self,request,image_id,format=None):
+        
+        user=request.user 
+
+        try:
+            image=models.Image.objects.get(id=image_id)
+        except models.Image.DoesNotExist:
+             return Response(status=status.HTTP_404_NOT_FOUND)
+        
+        serializer=serializers.ImageSerializer(image)
+
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
