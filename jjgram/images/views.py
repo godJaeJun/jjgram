@@ -139,3 +139,19 @@ class Search(APIView):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#내 글에 달린 댓글 삭제하기
+class ModerateComment(APIView):
+    def delete(self,request,image_id,comment_id,format=None):
+
+        user=request.user 
+
+        #해당이미지가 요청한 유저인지 확인하기
+        try:
+            #댓글아이디는 삭제할 댓글아이디, 이미지아이디는 댓글이 달린 게시물, 생성자는 image의 creator가 요청한 아이디인 경우
+            comment_to_delete=models.Comment.objects.get(id=comment_id,image__id=image_id,image__creator=user)
+            comment_to_delete.delete()
+        except models.Comment.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
