@@ -73,6 +73,7 @@ LOCAL_APPS = [
     'jjgram.users.apps.UsersAppConfig',
     # Your stuff: custom apps go here
     'jjgram.images.apps.ImagesConfig',
+    'jjgram.notifications.apps.NotificationsConfig',#notifications app(알림추가)
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
