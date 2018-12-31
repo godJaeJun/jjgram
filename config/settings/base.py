@@ -66,6 +66,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',#페이스북 로그인
     'rest_framework',#REST FRAMEWORK
     'rest_framework.authtoken',
     'taggit',#Tags for the photos
