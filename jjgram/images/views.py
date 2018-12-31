@@ -2,6 +2,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response#엘리먼트를 가져오고 보여주고 method를 관리하는 클래스
 from rest_framework import status #status 상태를 확인하는 클래스
 from . import models,serializers
+from jjgram.users import serializers as user_serializers
+from jjgram.users import models as user_models
 from jjgram.notifications import views as notification_views #상황에 맞게 알림이 떠야하기 때문에 가지고옴.
 
 
@@ -37,6 +39,21 @@ class Feed(APIView):
 
 #좋아요
 class LikeImage(APIView):
+    #좋아요를 누른사라 확인하기
+    def get(self,request,image_id,format=None):
+        
+        likes=models.Like.objects.filter(image__id=image_id)
+
+        #좋아요를 누른 사람을 찾아낸다.
+        like_creators_ids=likes.values('creator_id')
+        #array안에 있는 유저를 검색한다.
+        users=user_models.User.objects.filter(id__in=like_creators_ids)
+
+        serializer=user_serializers.ListUserSerializer(users,many=True)
+
+        return Response(data=serializer.data,status=status.HTTP_200_OK)
+     
+    #좋아요를 누르기
     def post(self,request,image_id,format=None):    #겟를 이용해서 이미지 like하기 바디를 바꾸지 않기 때문에 postX
         
         user=request.user
