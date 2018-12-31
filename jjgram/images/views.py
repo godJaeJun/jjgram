@@ -181,6 +181,15 @@ class ModerateComment(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class ImageDetail(APIView):
+    
+    #반복되는 일을 메소드로 압축 function이 class 안에 있기 때문에 self가 필요로하다.
+    def find_own_image(self,image_id,user):
+        try:
+            image=models.Image.objects.get(id=image_id,creator=user)
+            return image
+        except models.Image.DoesNotExist:
+             return None 
+
     def get(self,request,image_id,format=None):
         
         user=request.user 
@@ -199,10 +208,10 @@ class ImageDetail(APIView):
         
         user=request.user
 
-        try:
-            image=models.Image.objects.get(id=image_id,creator=user)
-        except models.Image.DoesNotExist:
-             return Response(status=status.HTTP_401_UNAUTHORIZED)
+        image=self.find_own_image(image_id,user)
+
+        if image is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         #수정할 이미지를 시리얼라이저에 넣는다. partial를 사용하면 완료되지 않은 업데이트가 가능하다.
         #즉 3가지 모든 필드가 변경안되도 가능하다.
@@ -215,4 +224,19 @@ class ImageDetail(APIView):
             return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
         else:
             return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+    #이미지 삭제한다.
+    def delete(self,request,image_id,format=None):
+        
+        user=request.user 
+
+        image=self.find_own_image(image_id,user)
+
+        if image is None:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        image.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
         
