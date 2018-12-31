@@ -151,3 +151,37 @@ class Search(APIView):
         
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+#비밀번호 변경 
+class ChangePassword(APIView):
+
+    def put(self,request,username,format=None):
+        
+        user=request.user
+
+        if user.username==username:
+            #현재 비밀번호를 입력받는다. 없으면 none
+            current_password=request.data.get('current_password',None)
+
+            if current_password is not None:
+                #장고에서 디폴트로 있는 비밀번호체크 
+                passwords_match=user.check_password(current_password)
+
+                if passwords_match:
+                    #새로운 비밀번호를 입력받는다. 없으면 none
+                    new_password=request.data.get('new_password',None)
+
+                    if new_password is not None:
+                        user.set_password(new_password)
+
+                        user.save()
+
+                        return Response(status=status.HTTP_200_OK)
+                    else:
+                        return Response(status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
