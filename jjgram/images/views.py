@@ -193,3 +193,26 @@ class ImageDetail(APIView):
         serializer=serializers.ImageSerializer(image)
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
+
+    #이미지를 변경한다.
+    def put(self,request,image_id,format=None):
+        
+        user=request.user
+
+        try:
+            image=models.Image.objects.get(id=image_id,creator=user)
+        except models.Image.DoesNotExist:
+             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        #수정할 이미지를 시리얼라이저에 넣는다. partial를 사용하면 완료되지 않은 업데이트가 가능하다.
+        #즉 3가지 모든 필드가 변경안되도 가능하다.
+        serializer=serializers.InputImageSerializer(image,data=request.data,partial=True)
+
+        #시리얼라이저가 유효하면
+        if serializer.is_valid():
+            serializer.save(creator=user)
+
+            return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
+        else:
+            return Response(data=serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        

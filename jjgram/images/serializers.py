@@ -71,3 +71,14 @@ class ImageSerializer(serializers.ModelSerializer):
             'creator',
             'created_at',
         ) 
+
+#이미지를 생성하고 업데이트 시키는 시리얼라이저
+class InputImageSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model=models.Image
+        fields=(
+            'file',
+            'location',
+            'caption',
+        )
