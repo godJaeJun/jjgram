@@ -68,6 +68,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',#REST FRAMEWORK
     'taggit',#Tags for the photos
+    'taggit_serializer' #tag serializer
 ]
 LOCAL_APPS = [
     'jjgram.users.apps.UsersAppConfig',
