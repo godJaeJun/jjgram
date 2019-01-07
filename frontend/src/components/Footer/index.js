@@ -1,28 +1,27 @@
 import React from 'react';
-import styles from "./styles.scss";
-
+import './index.css';
 //context는 해당 텍스트를 번역할 때 사용하는 것
-const Footer =(props,context)=>(
-    <footer className={styles.footer}>
-        <div className={styles.column}>
-            <nav className={styles.nav}>
-                <ul className={styles.list}>
-                    <li className={styles.listItem}>About Us</li>
-                    <li className={styles.listItem}>Support</li>
-                    <li className={styles.listItem}>Blog</li>
-                    <li className={styles.listItem}>Press</li>
-                    <li className={styles.listItem}>API</li>
-                    <li className={styles.listItem}>Jobs</li>
-                    <li className={styles.listItem}>Privacy</li>
-                    <li className={styles.listItem}>Terms</li>
-                    <li className={styles.listItem}>Directory</li>
-                    <li className={styles.listItem}>Language</li>
-                </ul>
-            </nav>
-        </div>
-        <div className={styles.column}>
-            <span className={styles.copyright}>@ 2019 jjgram</span>
-        </div>
+const Footer = (props, context) => (
+    <footer className="Footer">
+      <div className="Column">
+        <nav className="Nav">
+          <ul className="List">
+            <li className="List-item">About Us</li>
+            <li className="List-item">Support</li>
+            <li className="List-item">Blog</li>
+            <li className="List-item">Press</li>
+            <li className="List-item">API</li>
+            <li className="List-item">Jobs</li>
+            <li className="List-item">Privacy</li>
+            <li className="List-item">Terms</li>
+            <li className="List-item">Directory</li>
+            <li className="List-item">Language</li>
+          </ul>
+        </nav>
+      </div>
+      <div>
+        <span className="Copyright">© 2018 JJgram</span>
+      </div>
     </footer>
 );
 export default Footer;

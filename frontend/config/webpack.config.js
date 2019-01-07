@@ -428,7 +428,7 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                  camelCase:true,
+                  camelCase:"dashes",
                 },
                 {
                   loader:require.resolve('sass-loader'),
@@ -453,7 +453,7 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
-                  camelCase:true,
+                  camelCase:"dashes",
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
                 {
