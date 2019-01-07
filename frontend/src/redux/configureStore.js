@@ -24,8 +24,8 @@ if (env === "development") {
 const reducer = history =>
   combineReducers({
     users,
+    router: connectRouter(history),
     i18nState,
-    router: connectRouter(history)
   });
 
 let store;
