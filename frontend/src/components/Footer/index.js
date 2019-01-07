@@ -1,5 +1,5 @@
 import React from 'react';
-import './index.css';
+import './styles.scss';
 //context는 해당 텍스트를 번역할 때 사용하는 것
 const Footer = (props, context) => (
     <footer className="Footer">

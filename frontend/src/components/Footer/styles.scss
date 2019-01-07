@@ -1,27 +1,48 @@
-@import '../../config/variables';
-
-.footer {
-    max-width: $max-page-width;
+.Footer {
+    max-width: 935px;
     width: 100%;
-    margin: 0 auto;
+    margin: 55px auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     font-weight: 600;
-    text-transform: uppercase;
     font-size: 12px;
-    .column {
-      .nav {
-        .list {
-          display: flex;
-          .list-item {
-            margin-left: 10px;
-            color: $dark-blue;
-          }
-        }
+    margin: 55px auto;
+    text-transform: uppercase;
+    flex-wrap: wrap;
+    @include breakpoint(mobile) {
+        justify-content: center;
       }
-      .copyright {
-        color: $dark-grey;
-      }
+  }
+
+  .Column {
+    margin-bottom: 15px;
+    @include breakpoint(mobile) {
+      margin-bottom: 0;
     }
+  }
+
+  .Nav {
+  }
+
+  .List {
+    display: flex;
+    list-style-type: none;
+    flex-wrap: wrap;
+    @include breakpoint(mobile) {
+      justify-content: center;
+    }
+  }
+
+  .List-item {
+    margin-left: 15px;
+    color: #003569;
+    cursor: pointer;
+    @media (max-width: 37.5em) {
+      margin-bottom: 15px;
+    }
+  }
+
+  .Copyright {
+    color:#999;
   }
