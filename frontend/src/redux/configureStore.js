@@ -5,7 +5,6 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import { connectRouter, routerMiddleware } from "connected-react-router";
 import { i18nState } from "redux-i18n";
 import users from 'redux/modules/users';
-import Reactotron from "ReactotronConfig";
 //히스토리는 내가 뒤로 가기를 눌렀을 때 페이지를 기억한다. 브라우저 히스토리를 사용한다.
 
 //이건 node.js의 전체 정보를 갖고있는 variable이다. 현재상태가 dev인지 prob인지 확인
@@ -33,9 +32,7 @@ let store;
 
 if (env === "development") {
     store = initialState =>
-      Reactotron.createStore(
-        reducer(history),
-        composeWithDevTools(applyMiddleware(...middlewares))
+      createStore(reducer(history),composeWithDevTools(applyMiddleware(...middlewares))
       );
   } else {
     store = initialState =>
