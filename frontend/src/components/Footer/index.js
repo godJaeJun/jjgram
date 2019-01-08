@@ -20,7 +20,7 @@ const Footer = (props, context) => (
         </nav>
       </div>
       <div>
-        <span className="Copyright">© 2018 JJgram</span>
+        <span className="Copyright">© 2019 JJgram</span>
       </div>
     </footer>
 );
