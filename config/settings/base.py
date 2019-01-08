@@ -72,6 +72,7 @@ THIRD_PARTY_APPS = [
     'taggit_serializer', #tag serializer
     'rest_auth', #rest_auth
     'rest_auth.registration',#enable registration
+    'corsheaders', #To accept requests from React
 ]
 LOCAL_APPS = [
     'jjgram.users.apps.UsersAppConfig',
@@ -132,6 +133,7 @@ AUTH_PASSWORD_VALIDATORS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware', #리엑트때문에 미들웨어 수정
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -148,6 +150,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
+    str(ROOT_DIR.path('frontend','build','static')),#우리의 static은 프론트엔드에서 왔어!
 ]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
@@ -264,3 +267,7 @@ REST_FRAMEWORK = {
 
 REST_USE_JWT=True #JWT를 사용할 경우 입력해준다.
 ACCOUNT_LOGOUT_ON_GET=True #로그아웃하면 토큰 사라짐... get으로 로그아웃
+
+SOCIALACCOUNT_QUERY_EMAIL=True#페이스북 로그인을 위해 설정
+
+CORS_ORIGIN_ALLOW_ALL=True #다른 포트 접속 허용해주기.
