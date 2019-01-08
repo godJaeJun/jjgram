@@ -8,10 +8,33 @@ const Auth = (props, context) => (
       </div>
       <div className="Column">
         <div className="White-box-child-formBox">
-          <img  src={require("images/logo.png")} className="White-box-child-formBox-img" alt="Logo" />
+          <img src={require("images/logo.png")} className="White-box-child-formBox-img" alt="Logo" />
         </div>
         <div className="White-box-child">
-        </div>
+        {props.action === "login" && (
+          <p className="White-box-p">
+            Don't have an account?{" "}
+            <span
+              onClick={props.changeAction}
+              className="White-box-change-link"
+            >
+              Sign up
+            </span>
+          </p>
+        )}
+
+        {props.action === "signup" && (
+          <p className="White-box-p">
+            Have an account?{" "}
+            <span
+              className="White-box-change-link"
+              onClick={props.changeAction}
+            >
+              Login
+            </span>
+          </p>
+        )}
+      </div>
         <div className="App-box">
           <span>Get the app</span>
           <div className="App-box-appstores">
@@ -22,8 +45,8 @@ const Auth = (props, context) => (
             />
             <img
               src={require("images/android.png")}
-              className="App-box-appstores-img"
-              alt="Download it on the Apple Appstore"
+              className="App-box-appstores-img-child"
+              alt="Download it on the Android Appstore"
             />
           </div>
         </div>

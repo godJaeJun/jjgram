@@ -1,6 +1,6 @@
 .Auth {
     width: 100%;
-    max-width: 935px;
+    max-width: $max-page-width;
     margin: 0 auto;
     display: flex;
     min-height: 100%;
@@ -10,11 +10,15 @@
   }
 
   .Column {
-    width: 68%;
+    width: 70%;
+    &:last-child {
+      width: 50%;
+      margin-left: 35px;
+    }
   }
 
   .Column-child {
-    width: 70%;
+    width: 75%;
     margin-left: 35px;
   }
 
@@ -23,29 +27,24 @@
     flex-direction: column;
     align-items: center;
     margin-top: 35px;
-    
   }
 
   .App-box-appstores {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     margin-top: 25px;
-    
   }
 
   .App-box-appstores-img {
     display: flex;
-    flex-direction: column;
     align-items: center;
     margin-top: 25px;
     height: 40px;
+    margin-right: 10px;
   }
 
   .App-box-appstores-img-child {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-top: 25px;
     height: 40px;
     margin-right: 10px;
@@ -99,7 +98,6 @@
   .White-box-change-link {
     text-align: center;
     padding: 15px;
-    @include boxBorder(no);
     color: #3897f0;
     cursor: pointer;
   }
