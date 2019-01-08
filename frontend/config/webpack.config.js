@@ -398,7 +398,7 @@ module.exports = function(webpackEnv) {
               use: getStyleLoaders({
                 importLoaders: 1,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
-                camelCase:"dashes",
+                camelCase:true,
               }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
@@ -415,7 +415,7 @@ module.exports = function(webpackEnv) {
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
-                camelCase:"dashes",
+                camelCase:true,
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -428,7 +428,7 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                  camelCase:"dashes",
+                  camelCase:true,
                 },
                 {
                   loader:require.resolve('sass-loader'),
@@ -453,7 +453,7 @@ module.exports = function(webpackEnv) {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
-                  camelCase:"dashes",
+                  camelCase:true,
                   getLocalIdent: getCSSModuleLocalIdent,
                 },
                 {

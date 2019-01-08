@@ -24,10 +24,17 @@
             @content;
         }
     }
-
-    @else if $point == mobile {
+    
+    @else if $point ==  mobile{
         @media (max-width:37.5em) {
             @content;
         }
     }
 }
+@mixin boxBorder($radius) {
+    border: 1px solid #e6e6e6;
+    background-color: white;
+    @if $radius == yes {
+      border-radius: 3px;
+    }
+  }
