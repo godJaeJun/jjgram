@@ -3,8 +3,6 @@ from rest_framework.response import Response#엘리먼트를 가져오고 보여
 from rest_framework import status #status 상태를 확인하는 클래스
 from . import models,serializers
 from jjgram.notifications import views as notification_views #상황에 맞게 알림이 떠야하기 때문에 가지고옴.
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from rest_auth.registration.views import SocialLoginView
 
 #최근 가입한 5명의 유저 추천받기
 class ExploreUsers(APIView):
@@ -187,7 +185,3 @@ class ChangePassword(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-
-#페이스북로그인
-class FacebookLogin(SocialLoginView):
-    adapter_class = FacebookOAuth2Adapter
