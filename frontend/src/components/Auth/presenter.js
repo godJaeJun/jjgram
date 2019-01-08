@@ -1,5 +1,6 @@
 import React from "react";
 import "./index.scss";
+import {LoginForm,SignupForm} from "components/AuthForms";
 
 const Auth = (props, context) => (
     <main className="Auth">
@@ -9,6 +10,7 @@ const Auth = (props, context) => (
       <div className="Column">
         <div className="White-box-child-formBox">
           <img src={require("images/logo.png")} className="White-box-child-formBox-img" alt="Logo" />
+          {props.action==="login"&&<LoginForm/>}{props.action==="signup"&&<SignupForm/>}
         </div>
         <div className="White-box-child">
         {props.action === "login" && (
