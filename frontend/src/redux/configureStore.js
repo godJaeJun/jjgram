@@ -32,8 +32,7 @@ let store;
 
 if (env === "development") {
     store = initialState =>
-      createStore(reducer(history),composeWithDevTools(applyMiddleware(...middlewares))
-      );
+      createStore(reducer(history),composeWithDevTools(applyMiddleware(...middlewares)));
   } else {
     store = initialState =>
        createStore(reducer(history), applyMiddleware(...middlewares));
