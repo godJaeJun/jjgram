@@ -411,7 +411,7 @@ module.exports = function(webpackEnv) {
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
                 getLocalIdent: getCSSModuleLocalIdent,
-                camelCase:true,
+                camelCase:'dashes',
               }),
             },
             // Opt-in support for SASS (using .scss or .sass extensions).
@@ -424,9 +424,14 @@ module.exports = function(webpackEnv) {
                 {
                   importLoaders: 2,
                   sourceMap: isEnvProduction && shouldUseSourceMap,
-                },
-                'sass-loader'
-              ),
+                }).concat({
+                  loader: require.resolve('sass-loader'),
+                  options: {
+                    includePaths: [paths.appSrc + '/config'],
+                    data: `@import 'variables';`,
+                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                  }
+                }),
               // Don't consider CSS imports dead code even if the
               // containing package claims to have no side effects.
               // Remove this when webpack adds a warning or an error for this.
@@ -443,10 +448,15 @@ module.exports = function(webpackEnv) {
                   sourceMap: isEnvProduction && shouldUseSourceMap,
                   modules: true,
                   getLocalIdent: getCSSModuleLocalIdent,
-                  camelCase:true,
-                },
-                'sass-loader'
-              ),
+                  camelCase:'dashes',
+                }).concat({
+                  loader: require.resolve('sass-loader'),
+                  options: {
+                    includePaths: [paths.appSrc + '/config'],
+                    data: `@import 'variables';`,
+                    sourceMap: isEnvProduction && shouldUseSourceMap,
+                  }
+                }),
             },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
