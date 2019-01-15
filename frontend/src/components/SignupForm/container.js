@@ -5,21 +5,22 @@ import SignupForm from "./presenter";
 class Container extends Component{
     state={
         email:"",
-        fullname:"",
+        name:"",
         username:"",
         password:""
     }
     static propTypes={
-        facebookLogin:PropTypes.func.isRequired
+        facebookLogin:PropTypes.func.isRequired,
+        createAccount:PropTypes.func.isRequired
     }
     render(){
-        const {email,fullname,username,password}=this.state;
+        const {email,name,username,password}=this.state;
         return <SignupForm 
         handleSubmit={this._handleSubmit}
         handleInputChange={this._handleInputChange} 
         handleFacebookLogin={this._handleFacebookLogin}
         emailValue={email}
-        fullnameValue={fullname}
+        nameValue={name}
         usernameValue={username} 
         passwordValue={password}
         />
@@ -33,9 +34,10 @@ class Container extends Component{
     };
     //로그인 submit클릭시 반응없게 하기
     _handleSubmit=event=>{
+        const {email,name,password,username}=this.state;
+        const {createAccount}=this.props;
         event.preventDefault();
-        console.log(this.state)
-        //redux will be here
+        createAccount(username,password,email,name);
     }
 
     _handleFacebookLogin=response=>{
