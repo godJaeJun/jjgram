@@ -66,6 +66,7 @@ THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+     'allauth.socialaccount.providers.facebook',#페이스북 로그인
     'rest_framework',#REST FRAMEWORK
     'rest_framework.authtoken',
     'taggit',#Tags for the photos
@@ -271,3 +272,8 @@ ACCOUNT_LOGOUT_ON_GET=True #로그아웃하면 토큰 사라짐... get으로 로
 SOCIALACCOUNT_QUERY_EMAIL=True#페이스북 로그인을 위해 설정
 
 CORS_ORIGIN_ALLOW_ALL=True #다른 포트 접속 허용해주기.
+
+#절대 만료되지 않는 토큰을 만든다.
+JWT_AUTH={
+    'JWT_VERIFY_EXPIRATION' :False
+}

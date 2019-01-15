@@ -4,6 +4,25 @@
 
 //action creators
 
+//API actions
+
+function facebookLogin(access_token){
+    return function(dispatch){
+        fetch("/users/login/facebook/",{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body:JSON.stringify({//바디에서 JSON을 스트링으로 변환 json은 엑세스토큰임
+                access_token
+            }) 
+        })
+        .then(response=>response.json())//작업이 완료된 후 response입력.
+        .then(json=>console.log(json))
+        .catch(err=>console.log(err));
+    };
+}
+
 //intitial state
 const initialState={
     //localStorage란 브라우저에 저장하는 쿠키 같은 것. jwt가 없으면 false
@@ -21,5 +40,10 @@ function reducer(state=initialState,action){
 
 //exports
 
+const actionCreators={
+    facebookLogin
+};
+
+export {actionCreators};
 //reducer export
 export default reducer;
