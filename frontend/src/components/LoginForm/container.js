@@ -9,7 +9,8 @@ class Container extends Component{
         password:""
     }
     static propTypes={
-        facebookLogin:PropTypes.func.isRequired
+        facebookLogin:PropTypes.func.isRequired,
+        usernameLogin:PropTypes.func.isRequired
     }
     render(){
         const {username,password}=this.state;
@@ -30,8 +31,10 @@ class Container extends Component{
     };
     //로그인 submit클릭시 반응없게 하기
     _handleSubmit=event=>{
+        const {usernameLogin}=this.props;
+        const {username,password}=this.state;
         event.preventDefault();
-        //redux will be here
+        usernameLogin(username,password);
     }
 
     _handleFacebookLogin=response=>{
