@@ -225,7 +225,7 @@ class ImageDetail(APIView):
         image=self.find_own_image(image_id,user)
 
         if image is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         #수정할 이미지를 시리얼라이저에 넣는다. partial를 사용하면 완료되지 않은 업데이트가 가능하다.
         #즉 3가지 모든 필드가 변경안되도 가능하다.
@@ -247,7 +247,7 @@ class ImageDetail(APIView):
         image=self.find_own_image(image_id,user)
 
         if image is None:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         image.delete()
 
