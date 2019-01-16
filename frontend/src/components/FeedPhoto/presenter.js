@@ -1,11 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
+import PhotoActions from "components/PhotoActions";
 
-const FeedPhoto= (props,context)=>{
-    console.log(props);
-    return <div className={styles.feedPhoto}>hello!</div>
-}
+const FeedPhoto = (props, context) => {
+    return (
+      <div className={styles.feedPhoto}>
+        <header>
+          <img
+            src={props.creator.profile_image || require("images/noPhoto.jpg")}
+            alt={props.creator.username}
+          />
+          <div>
+            <span>{props.creator.username}</span>
+            <span>{props.location}</span>
+          </div>
+        </header>
+        <img src={props.file} alt={props.caption} />
+        <div>
+          <PhotoActions number={props.like_count} />
+        </div>
+      </div>
+    );
+  };
 
 //shape는 오브젝트의 모습
 FeedPhoto.propTypes={
