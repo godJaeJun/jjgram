@@ -73,7 +73,7 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
             'like_count',     #누가 좋아요를 눌렀는가
             'creator',
             'tags',
-            'created_at',
+            'natural_time',
         ) 
 
 #이미지를 생성하고 업데이트 시키는 시리얼라이저

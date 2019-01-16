@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from taggit.managers import TaggableManager
 from jjgram.users import models as user_models
+from django.contrib.humanize.templatetags.humanize import naturaltime #시간포맷지정하기
 #models를 두게 불러오면 충돌이 생기기 때문에 as를 사용하여 닉네임을 줘야한다.
 #타임 스태프는 날짜이다. abstract timestamp model생성
 
@@ -40,6 +41,11 @@ class Image(TimeStampeModel):
     @property
     def comment_count(self):
         return self.comments.all().count()
+
+    #시간포맷 변경 오늘날짜로 몇일전 몇분전 찍히도록
+    @property
+    def natural_time(self):
+        return naturaltime(self.created_at)
 
     #해당 로케이션과 캡션을 admin페이지에서 보여주게 한다. 다른거 클릭 시 내용 확인.
     def __str__(self):
