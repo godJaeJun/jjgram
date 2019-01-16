@@ -5,6 +5,7 @@ import './styles.scss';
 import Footer from 'components/Footer';
 import Auth from 'components/Auth';
 import Navigation from "components/Navigation";
+import Feed from "components/Feed";
 //key는 array를 리턴할때마다 키의 숫자가 필요하다.
 const App=props=>[
     props.isLoggedIn?<Navigation key={1}/>:null,
@@ -20,7 +21,7 @@ App.propTypes={
 //로그인시
 const PrivateRoutes=props=>(
     <Switch>
-        <Route exact path="/" render={()=>"feed"}/>
+        <Route exact path="/" component={Feed}/>
         <Route exact path="/explore" render={()=>"explore"}/>
     </Switch>
 )
