@@ -12,11 +12,11 @@ import 'react-app-polyfill/ie11'; // For IE 11 support
 //history={history}는 라우터에게 히스토리 오브젝트를 준다. 그래서 router와 middleware는 둘다 같은 동일한 히스토리 오브젝트를 갖게됨.
 ReactDOM.render(
     <Provider store={store}>
-        <ConnectedRouter history={history}>
             <I18n translations={tranlations} initialLang="en" fallbackLang="en">
-                <App />
+                <ConnectedRouter history={history}>
+                    <App />
+                </ConnectedRouter>
             </I18n>
-        </ConnectedRouter>
     </Provider>, 
     document.getElementById('root')
 );
