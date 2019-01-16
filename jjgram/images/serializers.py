@@ -61,6 +61,8 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
     creator=FeedUserSerializer()
     #태그로 검색할때 필요하다. 받아올때
     tags = TagListSerializerField()
+    #시리얼라이저 함수 정의 좋아요 눌렀는지 안누렀는지 확인하기 위해
+    is_liked=serializers.SerializerMethodField()
 
     class Meta:
         model=models.Image # 모델은 이미지 모델을 가지고 오고
@@ -74,8 +76,17 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
             'creator',
             'tags',
             'natural_time',
+            'is_liked'
         ) 
-
+    def get_is_liked(self,obj):
+        if 'request' in self.context:
+            request=self.context['request']
+            try:
+                models.Like.objects.get(creator__id=request.user.id,image__id=obj.id)
+                return True
+            except models.Like.DoesNotExist:
+                return False
+        return False
 #이미지를 생성하고 업데이트 시키는 시리얼라이저
 class InputImageSerializer(serializers.ModelSerializer):
     
