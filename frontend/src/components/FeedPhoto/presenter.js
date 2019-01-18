@@ -39,25 +39,27 @@ const FeedPhoto = (props, context) => {
   };
 
 //shape는 오브젝트의 모습
-FeedPhoto.propTypes={
-    creator:PropTypes.shape({
-        profile_image:PropTypes.string, //없는 경우가 있기에 is Required를 안붙인다.
-        username:PropTypes.string.isRequired
-    }).isRequired,
-    location:PropTypes.string.isRequired,
-    file:PropTypes.string.isRequired,
-    like_count:PropTypes.number.isRequired,
-    caption:PropTypes.string.isRequired,
-    comments:PropTypes.arrayOf(
-        PropTypes.shape({
-            message:PropTypes.string.isRequired,
-            creator:PropTypes.shape({
-                profile_image:PropTypes.string, 
-                username:PropTypes.string.isRequired
-            }).isRequired
-        })
-    ).isRequired,
-    natural_time:PropTypes.string.isRequired,
-    is_liked:PropTypes.bool.isRequired
+FeedPhoto.propTypes = {
+  id: PropTypes.number.isRequired,
+  creator: PropTypes.shape({
+    profile_image: PropTypes.string,
+    username: PropTypes.string.isRequired
+  }).isRequired,
+  location: PropTypes.string.isRequired,
+  file: PropTypes.string.isRequired,
+  like_count: PropTypes.number.isRequired,
+  caption: PropTypes.string.isRequired,
+  comments: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      message: PropTypes.string.isRequired,
+      creator: PropTypes.shape({
+        profile_image: PropTypes.string,
+        username: PropTypes.string.isRequired
+      }).isRequired
+    })
+  ).isRequired,
+  natural_time: PropTypes.string.isRequired,
+  is_liked: PropTypes.bool.isRequired
 }
 export default FeedPhoto;

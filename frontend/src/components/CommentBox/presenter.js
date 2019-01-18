@@ -8,22 +8,21 @@ const CommentBox = (props, context) => (
     <Textarea
       className={styles.input}
       placeholder={context.t("Add a comment...")}
-      value={props.comment}
       onChange={props.handleInputChange}
+      value={props.comment}
       onKeyPress={props.handleKeyPress}
     />
   </form>
 );
 
+CommentBox.propTypes = {
+  handleInputChange: PropTypes.func.isRequired,
+  comment: PropTypes.string.isRequired,
+  handleKeyPress: PropTypes.func.isRequired
+};
+
 CommentBox.contextTypes = {
   t: PropTypes.func.isRequired
 };
-
-CommentBox.propTypes={
-  handleInputChange:PropTypes.func.isRequired,
-  handleKeyPress:PropTypes.func.isRequired,
-  comment:PropTypes.string.isRequired,
-  photoId:PropTypes.number.isRequired
-}
 
 export default CommentBox;
