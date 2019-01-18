@@ -8,6 +8,7 @@ class Container extends Component {
   render() {
     return <CommentBox 
     {...this.state}
+    {...this.props}
     handleInputChange={this._handleInputChange}
     handleKeyPress={this._handleKeyPress}/>;
   }
@@ -18,9 +19,12 @@ class Container extends Component {
     });
   };
   _handleKeyPress=event=>{
+    const {submitComment}=this.props;
+    const {comment} =this.state;
     const {key}=event;
     if(key==="Enter"){
       event.preventDefault();//Enter 무효화 자바스크립트에게 디폴트행동을 하지 말라고 한다.
+      submitComment(comment);
     }
   }
 }
