@@ -13,7 +13,7 @@ class ExploreUsers(APIView):
         
         last_five = models.User.objects.all().order_by('-date_joined')[:5]   #5명만 불러옴
 
-        serializer=serializers.ListUserSerializer(last_five,many=True)
+        serializer=serializers.ListUserSerializer(last_five,many=True,context={"request":request})
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
@@ -114,7 +114,7 @@ class UserFollowers(APIView):
         user_followers=found_user.followers.all()
 
         #시리얼라이저를 통해 해당 유저들을 json으로 바꾼다.
-        serializer=serializers.ListUserSerializer(user_followers,many=True)
+        serializer=serializers.ListUserSerializer(user_followers,many=True,context={"request":request})
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
@@ -132,7 +132,7 @@ class UserFollowing(APIView):
         user_following=found_user.following.all()
 
         #시리얼라이저를 통해 해당 유저들을 json으로 바꾼다.
-        serializer=serializers.ListUserSerializer(user_following,many=True)
+        serializer=serializers.ListUserSerializer(user_following,many=True,context={"request":request})
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
 
@@ -147,7 +147,7 @@ class Search(APIView):
             #변경함 istartswith으로 시작하는 것...oo으로 시작
             users=models.User.objects.filter(username__istartswith=username)
 
-            serializer=serializers.ListUserSerializer(users,many=True)
+            serializer=serializers.ListUserSerializer(users,many=True,context={"request":request})
 
             return Response(data=serializer.data,status=status.HTTP_200_OK)
         

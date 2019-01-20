@@ -3,10 +3,10 @@ import PropTypes from "prop-types";
 import styles from "./styles.module.scss";
 
 const UserDisplay = (props, context) => (
-  <div className={styles.container}>
+  <div className={props.horizontal ? styles.horizontal : styles.vertical}>
     <div className={styles.column}>
       <img
-        src={props.profile_image || require("images/noPhoto.jpg")}
+        src={props.user.profile_image || require("images/noPhoto.jpg")}
         alt={props.user.username}
         className={props.big ? styles.bigAvatar : styles.avatar}
       />
@@ -16,7 +16,9 @@ const UserDisplay = (props, context) => (
       </div>
     </div>
     <span className={styles.column}>
-      <button className={styles.button}>{context.t("Follow")}</button>
+      <button className={styles.button} onClick={props.handleClick}>
+        {props.user.following ? context.t("Unfollow") : context.t("Follow")}
+      </button>
     </span>
   </div>
 );
@@ -27,15 +29,16 @@ UserDisplay.contextTypes = {
 
 UserDisplay.propTypes = {
   user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     profile_image: PropTypes.string,
     username: PropTypes.string.isRequired,
-    name: PropTypes.string
+    name: PropTypes.string,
+    following: PropTypes.bool.isRequired
   }).isRequired,
-  big: PropTypes.bool
-};
-
-UserDisplay.defaultProps = {
-  big: false
+  big: PropTypes.bool,
+  handleClick: PropTypes.func.isRequired,
+  horizontal: PropTypes.bool,
+  vertical: PropTypes.bool
 };
 
 export default UserDisplay;

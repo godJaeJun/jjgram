@@ -63,7 +63,7 @@ class LikeImage(APIView):
         #array안에 있는 유저를 검색한다.
         users=user_models.User.objects.filter(id__in=like_creators_ids)
 
-        serializer=user_serializers.ListUserSerializer(users,many=True)
+        serializer=user_serializers.ListUserSerializer(users,many=True,context={"request":request})
 
         return Response(data=serializer.data,status=status.HTTP_200_OK)
      
