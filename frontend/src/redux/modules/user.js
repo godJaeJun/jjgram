@@ -5,6 +5,8 @@
 const SAVE_TOKEN="SAVE_TOKEN";
 const LOGOUT="LOGOUT";
 const SET_USER_LIST="SET_USER_LIST";
+const FOLLOW_USER="FOLLOW_USER";
+const UNFOLLOW_USER="UNFOLLOW_USER";
 
 //action creators
 //token=내가 저장하고 싶은 토큰
@@ -26,6 +28,19 @@ function setUserList(userList){
         type:SET_USER_LIST,
         userList
     }
+}
+
+function setFollowUser(userId){
+    return{
+        type:FOLLOW_USER,
+        userId
+    };
+}
+function setUnfollowUser(userId){
+    return{
+        type:UNFOLLOW_USER,
+        userId
+    };
 }
 //API actions
 
@@ -116,6 +131,17 @@ function getPhotoLikes(photoId){
         });
     }
 }
+
+function followUser(userId){
+    return (dispatch,getState)=>{
+        dispatch(setFollowUser(userId));
+    };
+}
+function unfollowUser(userId){
+    return (dispatch,getState)=>{
+        dispatch(setUnfollowUser(userId));
+    };
+}
 //intitial state
 const initialState={
     //localStorage란 브라우저에 저장하는 쿠키 같은 것. jwt가 없으면 false
@@ -132,6 +158,10 @@ function reducer(state=initialState,action){
             return applyLogout(state,action);
         case SET_USER_LIST:
             return applySetUserList(state,action);
+        case FOLLOW_USER:
+            return applyFollowUser(state,action);
+        case UNFOLLOW_USER:
+            return applyUnfollowUser(state,action);
         default:
             return state;
     }
@@ -161,6 +191,28 @@ function applySetUserList(state,action){
         userList
     }
 }
+function applyFollowUser(state,action){
+    const {userId}=action;
+    const {userList}=state;
+    const updatedUserList=userList.map(user=>{
+        if(user.id===userId){
+            return {...user,following:true}
+        }
+        return user
+    });
+    return {...state,userList:updatedUserList}
+}
+function applyUnfollowUser(state,action){
+    const {userId}=action;
+    const {userList}=state;
+    const updatedUserList=userList.map(user=>{
+        if(user.id===userId){
+            return {...user,following:false}
+        }
+        return user
+    });
+    return {...state,userList:updatedUserList}
+}
 //exports
 
 const actionCreators={
@@ -168,7 +220,9 @@ const actionCreators={
     usernameLogin,
     createAccount,
     logout,
-    getPhotoLikes
+    getPhotoLikes,
+    followUser,
+    unfollowUser
 };
 
 export {actionCreators};
