@@ -4,6 +4,7 @@
 //토큰을 저장시켜줌.
 const SAVE_TOKEN="SAVE_TOKEN";
 const LOGOUT="LOGOUT";
+const SET_USER_LIST="SET_USER_LIST";
 
 //action creators
 //token=내가 저장하고 싶은 토큰
@@ -18,6 +19,13 @@ function logout(){
     return{
         type:LOGOUT
     };
+}
+
+function setUserList(userList){
+    return{
+        type:SET_USER_LIST,
+        userList
+    }
 }
 //API actions
 
@@ -89,7 +97,25 @@ function createAccount(username,password,email,name){
     }
 }
 
-
+function getPhotoLikes(photoId){
+    return(dispatch,getState)=>{
+        const {user: {token} } =getState();
+        fetch(`/images/${photoId}/likes`,{
+            headers: {
+                Authorization:`JWT ${token}`
+            }
+        })
+        .then(response=>{
+            if(response.status===401){
+                dispatch(logout());
+            }
+            return response.json();
+        })
+        .then(json=>{
+            dispatch(setUserList(json));
+        });
+    }
+}
 //intitial state
 const initialState={
     //localStorage란 브라우저에 저장하는 쿠키 같은 것. jwt가 없으면 false
@@ -104,6 +130,8 @@ function reducer(state=initialState,action){
             return applySetToken(state,action);
         case LOGOUT:
             return applyLogout(state,action);
+        case SET_USER_LIST:
+            return applySetUserList(state,action);
         default:
             return state;
     }
@@ -125,13 +153,22 @@ function applyLogout(state,action){
         isLoggedIn:false
     };
 }
+
+function applySetUserList(state,action){
+    const {userList}=action;
+    return{
+        ...state,
+        userList
+    }
+}
 //exports
 
 const actionCreators={
     facebookLogin,
     usernameLogin,
     createAccount,
-    logout
+    logout,
+    getPhotoLikes
 };
 
 export {actionCreators};
