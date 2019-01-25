@@ -172,12 +172,12 @@ class Search(APIView):
             #대소문자를 구분 x in은 array가 있으면 array중에서 찾아내라 distinct 중복 x
             images=models.Image.objects.filter(tags__name__in=hashtags).distinct()
 
-            serializer=serializers.CountImageSerializer(images,many=True)
-       
+            serializer=serializers.ImageSerializer(images,many=True,context={'request':request})
+            
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             images=models.Image.objects.all()[:20]
-            serializer = serializers.CountImageSerializer(images,many=True)
+            serializer=serializers.ImageSerializer(images,many=True,context={'request':request})
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         
 
