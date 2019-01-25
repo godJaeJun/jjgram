@@ -176,7 +176,10 @@ class Search(APIView):
        
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            images=models.Images.objects.all()[:20]
+            serializer = serializers.CommentSerializer(images,many=True)
+            return Response(data=serializer.data, status=status.HTTP_200_OK)
+        
 
 #내 글에 달린 댓글 삭제하기
 class ModerateComment(APIView):
