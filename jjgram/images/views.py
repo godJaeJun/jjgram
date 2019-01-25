@@ -177,7 +177,7 @@ class Search(APIView):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             images=models.Image.objects.all()[:20]
-            serializer = serializers.CommentSerializer(images,many=True)
+            serializer = serializers.CountImageSerializer(images,many=True)
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         
 
