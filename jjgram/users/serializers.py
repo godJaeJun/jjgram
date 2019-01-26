@@ -39,6 +39,11 @@ class ListUserSerializer(serializers.ModelSerializer):
             'profile_image',
             'username',
             'name',
+            'bio',
+            'website',
+            'post_count',
+            'followers_count',
+            'following_count',
             'following'
         )
     def get_following(self,obj):
