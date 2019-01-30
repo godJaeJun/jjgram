@@ -97,6 +97,8 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
 #이미지를 생성하고 업데이트 시키는 시리얼라이저
 class InputImageSerializer(serializers.ModelSerializer):
     
+    tags = TagListSerializerField()
+
     class Meta:
         model=models.Image
         fields=(
