@@ -7,7 +7,7 @@ verify_ssl = true
 
 [packages]
 pytz = "==2018.7"
-Django = "==2.0.9"
+Django = "==2.2.24"
 python-slugify = "==1.2.6"
 argon2-cffi = "==18.3.0"
 redis = "<3,>=2.10.6"
